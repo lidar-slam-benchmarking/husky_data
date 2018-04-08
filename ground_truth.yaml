@@ -6,6 +6,8 @@ vive_base_2: [5.3,5.83] # also vive_world apparently
 odom_pos: [0,0,0]
 odom_rot: [0,0,0]
 
+velodyne_offset: [0.27,0,0.69]
+
 landmarks:
 - size: 'small'
   pos: [0,0]

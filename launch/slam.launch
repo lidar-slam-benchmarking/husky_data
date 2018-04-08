@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <launch>
 
+
   <!-- Ground Truth -->
   <rosparam command="load" file="$(find husky)/ground_truth.yaml" />
 	<node name="ground_truth" pkg="husky" type="ground_truth.py" output="screen"/>
 
-	<!--Static Transforms-->
+	<!--Static Transforms are just used as placeholders! -->
 	<node pkg="tf2_ros" type="static_transform_publisher" name="odom" args="0 0 0 0 0 0 world odom" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="laser" args="0 0 0 0 0 0 base_link laser_link" />
   <node pkg="tf2_ros" type="static_transform_publisher" name="vive" args="0 0 0 0 0 0 world vive_world" />
 
   <!-- launch SLAM nodes -->
   <!-- ... -->
 
   <!-- Play ROS bag -->
+  <param name="/use_sim_time" value="true" />
   <node pkg="rosbag" type="play" name="rosbagplay" args="$(find husky)/../../bags/husky.bag --clock -d 5" required="true">
 </node>
 
