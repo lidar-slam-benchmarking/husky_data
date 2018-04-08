@@ -51,14 +51,18 @@ def odometryCb(msg):
 
 def viveCb(msg):
 
+    # let's do some mad dog hacking to normalize this
     p = msg.pose.pose.position
     r = msg.pose.pose.orientation
-    # roll, pitch, yaw = tf.transformations.euler_from_quaternion(quat)
+    roll, pitch, yaw = tf.transformations.euler_from_quaternion((r.x,r.y,r.z,r.w))
 
-    # normalize!
+    if abs(yaw) > math.pi/2:
+        new_yaw = -1*pitch
+    else:
+        new_yaw = 1*pitch + math.pi
+
     br.sendTransform((p.x,0,p.z),
-        # (r.x,r.y,r.z,r.w),
-        tf.transformations.quaternion_from_euler(0,0,0),
+        tf.transformations.quaternion_from_euler(-math.pi/2,new_yaw,0),
         rospy.Time.now(),
         "/vive",
         "/vive_world")

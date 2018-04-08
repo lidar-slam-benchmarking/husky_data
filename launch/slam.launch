@@ -16,7 +16,7 @@
 
   <!-- Play ROS bag -->
   <param name="/use_sim_time" value="true" />
-  <node pkg="rosbag" type="play" name="rosbagplay" args="$(find husky)/../../bags/husky.bag --clock -d 5" required="true">
+  <node pkg="rosbag" type="play" name="rosbagplay" args="$(find husky)/../../bags/husky.bag --clock -d 5 --rate 1" required="true">
 </node>
 
   <!-- Launch RVIZ -->
