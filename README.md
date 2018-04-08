@@ -1,2 +1,9 @@
 # slam-husky
-Implementation of various Lidar-based SLAM algorithms on a Husky in NSH Level B
+
+download rosbag from https://bit.ly/2JqlX7r into catkin_ws/bags/
+
+clone this repo into catkin_ws/src/
+
+run with roslaunch husky slam.launch
+
+make it SLAM
