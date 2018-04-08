@@ -1,27 +1,35 @@
-### Landmine ###
+### ground truth locations ###
 
-# Label	X (m)	Y (m)
-# small	0	0
-# small	3.23	1.165
-# large	5.13	0.96
-# small	1.62	2.52
-# small	4.14	3.05
-# small	1.82	4.6609
-# large	0.16	8.4836
-# small	0.54	6.4516
-# small	2.52	6.4897
-# large	3.21	5.4102
-# large	3.6195	6.1468
-# small	4.5974	8.5598
-# large	5.461	5.2832
-# Vive Master	-0.59	5.79
-# Vive Slave	5.3	5.83
+vive_base_1: [-0.59,5.79]
+vive_base_2: [5.3,5.83] # also vive_world apparently
 
-# landmarks:
-#   - small: [0,0]
-#   - small:	[3.23,	1.165]
-#   - large: [5.13,	0.96]
+odom_pos: [0,0,0]
+odom_rot: [0,0,0]
 
-### Scorpion Model ###
-loc: [-450,-425,0]
-rot: [1.57079632679, 0, 1.57079632679]
+landmarks:
+- size: 'small'
+  pos: [0,0]
+- size: 'small'
+  pos: [3.23,1.165]
+- size: 'large'
+  pos: [5.13,0.96]
+- size: 'small'
+  pos: [1.62,2.52]
+- size: 'small'
+  pos: [4.14,3.05]
+- size: 'small'
+  pos: [1.82,4.6609]
+- size: 'large'
+  pos: [0.16,8.4836]
+- size: 'small'
+  pos: [0.54,6.4516]
+- size: 'small'
+  pos: [2.52,6.4897]
+- size: 'large'
+  pos: [3.21,5.4102]
+- size: 'large'
+  pos: [3.6195,6.1468]
+- size: 'small'
+  pos: [4.5974,8.5598]
+- size: 'large'
+  pos: [5.461,5.2832]

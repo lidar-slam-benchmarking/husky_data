@@ -6,7 +6,8 @@
 	<node name="ground_truth" pkg="husky" type="ground_truth.py" output="screen"/>
 
 	<!--Static Transforms-->
-	<node pkg="tf2_ros" type="static_transform_publisher" name="bno_imu" args="-0.37 0 0.57 1.57 0 0 base_link imu_link" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="odom" args="0 0 0 0 0 0 world odom" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="vive" args="0 0 0 0 0 0 world vive_world" />
 
   <!-- launch SLAM nodes -->
   <!-- ... -->
