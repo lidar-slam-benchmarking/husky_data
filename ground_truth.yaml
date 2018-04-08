@@ -1,0 +1,27 @@
+### Landmine ###
+
+# Label	X (m)	Y (m)
+# small	0	0
+# small	3.23	1.165
+# large	5.13	0.96
+# small	1.62	2.52
+# small	4.14	3.05
+# small	1.82	4.6609
+# large	0.16	8.4836
+# small	0.54	6.4516
+# small	2.52	6.4897
+# large	3.21	5.4102
+# large	3.6195	6.1468
+# small	4.5974	8.5598
+# large	5.461	5.2832
+# Vive Master	-0.59	5.79
+# Vive Slave	5.3	5.83
+
+# landmarks:
+#   - small: [0,0]
+#   - small:	[3.23,	1.165]
+#   - large: [5.13,	0.96]
+
+### Scorpion Model ###
+loc: [-450,-425,0]
+rot: [1.57079632679, 0, 1.57079632679]

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<launch>
+
+  <!-- Ground Truth -->
+  <rosparam command="load" file="$(find husky)/ground_truth.yaml" />
+	<node name="ground_truth" pkg="husky" type="ground_truth.py" output="screen"/>
+
+	<!--Static Transforms-->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="bno_imu" args="-0.37 0 0.57 1.57 0 0 base_link imu_link" />
+
+  <!-- launch SLAM nodes -->
+  <!-- ... -->
+
+  <!-- Play ROS bag -->
+  <node pkg="rosbag" type="play" name="rosbagplay" args="$(find husky)/../../bags/husky.bag --clock -d 5" required="true">
+</node>
+
+  <!-- Launch RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find husky)/launch/slam.rviz"/>
+
+</launch>
