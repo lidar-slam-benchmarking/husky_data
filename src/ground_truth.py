@@ -3,16 +3,11 @@
 import rospy
 import math
 import tf
-from tf.transformations import euler_from_quaternion
 import numpy as np
 from geometry_msgs.msg import Point
-from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Quaternion
-from std_msgs.msg import Int16, Int16MultiArray
 from visualization_msgs.msg import Marker
 from nav_msgs.msg import Odometry
-
-import pdb
 
 def landmarker(x,y,z,size):
     global landmark_id
@@ -31,9 +26,9 @@ def landmarker(x,y,z,size):
     msg.scale.y = size
     msg.scale.z = size
     msg.color.a = 1.0
-    msg.color.r = 255
-    msg.color.g = 0
-    msg.color.b = 0
+    msg.color.r = 253./255.
+    msg.color.g = 106./255.
+    msg.color.b = 2./255.
     landmark_viz_pub.publish(msg)
     landmark_id += 1
 
@@ -68,22 +63,22 @@ def viveCb(msg):
         "/vive",
         "/vive_world")
 
-def main():
 
+def main():
     rospy.init_node('ground_truth')
 
+    # Setup tf Publishers
     global br
     br = tf.TransformBroadcaster()
     listener = tf.TransformListener()
+    rospy.Subscriber('/husky_velocity_controller/odom',Odometry,odometryCb)
+    rospy.Subscriber('/vive/LHR_0EB0243A_odom',Odometry,viveCb)
 
+    # Draw Landmarks
     landmarks = rospy.get_param('landmarks')
-
     global landmark_viz_pub, landmark_id
     landmark_viz_pub = rospy.Publisher('landmark_viz', Marker, queue_size=100)
     landmark_id = 0
-
-    rospy.Subscriber('/husky_velocity_controller/odom',Odometry,odometryCb)
-    rospy.Subscriber('/vive/LHR_0EB0243A_odom',Odometry,viveCb)
 
     rospy.sleep(0.1) # delay for markers
     for i in range(0,len(landmarks)):
@@ -91,7 +86,10 @@ def main():
         y = landmarks[i]['pos'][1]
         z = 0
         size = landmarks[i]['size']
-        landmarker(x,y,z,0.2)
+        if size == 'small':
+            landmarker(x,y,z,0.2)
+        else:
+            landmarker(x,y,z,0.35)
 
     r = rospy.Rate(100)
     while not rospy.is_shutdown():
