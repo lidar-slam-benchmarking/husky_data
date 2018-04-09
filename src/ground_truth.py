@@ -49,6 +49,7 @@ def odometryCb(msg):
         "/base_link",
         "/odom")
 
+
 def viveCb(msg):
 
     # let's do some mad dog hacking to normalize this
@@ -67,20 +68,15 @@ def viveCb(msg):
         "/vive",
         "/vive_world")
 
-
 def main():
 
     rospy.init_node('ground_truth')
+
     global br
     br = tf.TransformBroadcaster()
     listener = tf.TransformListener()
 
     landmarks = rospy.get_param('landmarks')
-    vive_base_1 = rospy.get_param('vive_base_1')
-    vive_base_2 = rospy.get_param('vive_base_2') # also vive_world apparently
-    odom_pos = rospy.get_param('odom_pos')
-    odom_rot = rospy.get_param('odom_rot')
-    velodyne_offset = rospy.get_param('velodyne_offset')
 
     global landmark_viz_pub, landmark_id
     landmark_viz_pub = rospy.Publisher('landmark_viz', Marker, queue_size=100)
@@ -89,7 +85,7 @@ def main():
     rospy.Subscriber('/husky_velocity_controller/odom',Odometry,odometryCb)
     rospy.Subscriber('/vive/LHR_0EB0243A_odom',Odometry,viveCb)
 
-    rospy.sleep(0.3)
+    rospy.sleep(0.1) # delay for markers
     for i in range(0,len(landmarks)):
         x = landmarks[i]['pos'][0]
         y = landmarks[i]['pos'][1]
@@ -100,37 +96,17 @@ def main():
     r = rospy.Rate(100)
     while not rospy.is_shutdown():
 
-        ### This is basically a hacky way to paramterize a static tf ###
-
-        br.sendTransform((vive_base_1[0],vive_base_1[1],0),
-            tf.transformations.quaternion_from_euler(1.5708,0,0),
-            rospy.Time.now(),
-            "/vive_base_1",
-            "/world")
-
-        br.sendTransform((vive_base_2[0],vive_base_2[1],0),
-            tf.transformations.quaternion_from_euler(1.5708,0,0),
-            rospy.Time.now(),
-            "/vive_base_2",
-            "/world")
-
-        br.sendTransform((vive_base_2[0],vive_base_2[1],0),
-            tf.transformations.quaternion_from_euler(1.5708,0,1.5708),
-            rospy.Time.now(),
-            "/vive_world",
-            "/world")
-
-        br.sendTransform((odom_pos[0],odom_pos[1],odom_pos[2]),
-            tf.transformations.quaternion_from_euler(odom_rot[0],odom_rot[1],odom_rot[2]),
-            rospy.Time.now(),
-            "/odom",
-            "/world")
-
-        br.sendTransform((velodyne_offset[0],velodyne_offset[1],velodyne_offset[2]),
-            tf.transformations.quaternion_from_euler(0,0,0),
-            rospy.Time.now(),
-            "/laser_link",
-            "/base_link")
+        # try:
+        #     (vive_trans,vive_rot) = listener.lookupTransform('/odom', '/vive', rospy.Time(0))
+        #     print "vive:",vive_trans
+        #
+        #     (odom_trans,odom_rot) = listener.lookupTransform('/odom', '/base_link', rospy.Time(0))
+        #     print "odom:",odom_trans
+        #
+        #     print "delta:",np.array(vive_trans) - np.array(odom_trans)
+        #
+        # except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+        #     continue
 
         r.sleep()
 

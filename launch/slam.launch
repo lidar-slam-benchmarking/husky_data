@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <launch>
 
-
   <!-- Ground Truth -->
   <rosparam command="load" file="$(find husky)/ground_truth.yaml" />
 	<node name="ground_truth" pkg="husky" type="ground_truth.py" output="screen"/>
 
 	<!--Static Transforms are just used as placeholders! -->
-	<node pkg="tf2_ros" type="static_transform_publisher" name="odom" args="0 0 0 0 0 0 world odom" />
-	<node pkg="tf2_ros" type="static_transform_publisher" name="laser" args="0 0 0 0 0 0 base_link laser_link" />
-  <node pkg="tf2_ros" type="static_transform_publisher" name="vive" args="0 0 0 0 0 0 world vive_world" />
+	<!-- <node pkg="tf2_ros" type="static_transform_publisher" name="vive_base_1" args="-0.59 5.79 0 1.5708 0 0 world vive_base" /> -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="vive_world" args="5.3 5.83 0 1.5708 0 1.5708 world vive_world" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="laser_link" args="0.27 0 0.69 0 0 0 base_link laser_link" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="odom_rot" args="0 0 0 0.14977049128 0 0 world odom_rot" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="odom" args="0.264131127 3.06120672 0 0 0 0 odom_rot odom" />
 
   <!-- launch SLAM nodes -->
   <!-- ... -->
